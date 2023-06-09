@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reallivetracking/main.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:reallivetracking/order_traking_page.dart';
 
 class proses extends StatelessWidget {
@@ -12,24 +13,29 @@ class proses extends StatelessWidget {
         title: Text("Proses Pengiriman"),
         backgroundColor: Colors.purple,
       ),
-      body: Stack
-      (children: [
-      Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-        Card(
-          child: Text
-          ('Deskripsi Paket :',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15,),
-        ),
-      ),
-      Container(
-            child: Text('Paket sedang menuju kesini',
-              style: TextStyle(fontSize: 15,),
+      body: Stack(children: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Card(
+              child: Text(
+                'Deskripsi Paket :',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
+              ),
             ),
-          ),
-        ],
-      ),
+            Container(
+              child: Text(
+                'Paket sedang menuju kesini',
+                style: TextStyle(
+                  fontSize: 15,
+                ),
+              ),
+            ),
+          ],
+        ),
         Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -45,10 +51,17 @@ class proses extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       )),
                   onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => OrderTrackingPage(
-                        )
-                      )
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => OrderTrackingPage(),
+                    //   ),
+                    // );
+
+                    // Contoh (Lokasi Monas)
+                    // Latitude = -6.1757268
+                    // Longitude = 106.8278576
+                    openGmap(-6.1757268, 106.8278576);
                   },
                   child: const Text(
                     'Lacak Lokasi',
@@ -64,5 +77,11 @@ class proses extends StatelessWidget {
         ),
       ]),
     );
+  }
+
+  void openGmap(double latitude, double longitude) {
+    Uri url = Uri.parse(
+      "http://maps.google.com/maps?q=$latitude,$longitude");
+    launchUrl(url);
   }
 }
