@@ -16,8 +16,8 @@ class OrderTrackingPage extends StatefulWidget {
 class OrderTrackingPageState extends State<OrderTrackingPage> {
   final Completer<GoogleMapController> _controller = Completer();
 
-  static const LatLng sourceLocation = LatLng(37.33500926, -122.03272188);
-  static const LatLng destination = LatLng(37.33429383, -122.06600055);
+  static const LatLng sourceLocation = LatLng(-3.00079155863, 104.767684937);
+  static const LatLng destination = LatLng(-2.99594876349, 104.777898788);
 
   List<LatLng> polylineCoordinates = [];
   LocationData? currentLocation;
@@ -26,8 +26,9 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
   BitmapDescriptor destinationIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor currentLocationIcon = BitmapDescriptor.defaultMarker;
 
-  void getCurrentLocation() async {
+  void getCurrentLocation() async{
     Location location = Location();
+
 
     location.getLocation().then(
       (location) {
@@ -57,21 +58,21 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
 
   void setCustomMarkerIcon() {
     BitmapDescriptor.fromAssetImage(
-            ImageConfiguration.empty, "assets\Pin_source.png")
+            ImageConfiguration.empty, "assetsPin_source.png")
         .then(
       (icon) {
         sourceIcon = icon;
       },
     );
     BitmapDescriptor.fromAssetImage(
-            ImageConfiguration.empty, "assets\Pin_destination.png")
+            ImageConfiguration.empty, "assetsPin_destination.png")
         .then(
       (icon) {
         destinationIcon = icon;
       },
     );
     BitmapDescriptor.fromAssetImage(
-            ImageConfiguration.empty, "assets\Badge.png")
+            ImageConfiguration.empty, "assetsBadge.png")
         .then(
       (icon) {
         currentLocationIcon = icon;
@@ -89,12 +90,14 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
     );
 
     if (result.points.isNotEmpty) {
-      result.points.forEach(
-        (PointLatLng point) => polylineCoordinates.add(
+      for (var point in result.points) {
+        polylineCoordinates.add(
           LatLng(point.latitude, point.longitude),
-        ),
-      );
-      setState(() {});
+        );
+      }
+      /*setState(() {
+
+      });*/
     }
   }
 
@@ -111,6 +114,10 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.purple,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: (){ Navigator.pop(context);},
+          ),
           title: const Text(
             "Lokasi Terkini Driver",
             style: TextStyle(color: Colors.white, fontSize: 16),
@@ -126,7 +133,7 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
                 ),
                 polylines: {
                   Polyline(
-                    polylineId: PolylineId("route"),
+                    polylineId: const PolylineId("route"),
                     points: polylineCoordinates,
                     color: primaryColor,
                     width: 6,
@@ -140,12 +147,12 @@ class OrderTrackingPageState extends State<OrderTrackingPage> {
                         currentLocation!.longitude!),
                   ),
                   Marker(
-                    markerId: MarkerId("source"),
+                    markerId: const MarkerId("source"),
                     icon: sourceIcon,
                     position: sourceLocation,
                   ),
                   Marker(
-                    markerId: MarkerId("destination"),
+                    markerId: const MarkerId("destination"),
                     icon: destinationIcon,
                     position: destination,
                   ),

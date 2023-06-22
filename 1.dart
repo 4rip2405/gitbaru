@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reallivetracking/prosespengantaran.dart';
+import 'package:reallivetracking/prosespengiriman.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: antar(),
+      home: proses(),
       debugShowCheckedModeBanner: false,
       // onGenerateRoute: RouteGenerator.generateRoute,
     );

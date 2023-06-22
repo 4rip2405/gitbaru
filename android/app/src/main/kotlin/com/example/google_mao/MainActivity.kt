@@ -1,4 +1,4 @@
-package com.example.reallivetracking
+package com.example.google_mao
 
 import io.flutter.embedding.android.FlutterActivity
 
